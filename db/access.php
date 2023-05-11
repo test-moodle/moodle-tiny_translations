@@ -26,13 +26,13 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = [
-
-    'tiny/translations:translate' => [
-        'captype' => 'view',
+    'tiny/translations:replacehash' => [
+        'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
-            'editingteacher' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW
         ],
     ],
 ];

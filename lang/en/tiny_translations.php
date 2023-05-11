@@ -30,4 +30,4 @@ $string['menuitem_translate'] = 'Translate content';
 $string['helplinktext'] = 'Translations helper';
 $string['pluginname'] = 'Translations';
 $string['buttontitle'] = 'Replace content translation hash';
-$string['translations:translate'] = 'Translate content';
+$string['translations:replacehash'] = 'Replace translation hash key';

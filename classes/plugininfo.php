@@ -37,16 +37,18 @@ class plugininfo extends plugin implements plugin_with_configuration {
     ): array {
         $unusedhash = md5(random_string(32));
 
-        // Do our best to make sure it's unique.
-        /*
-        while (!empty(translation::get_record(['md5key' => $unusedhash])) || !empty(translation::get_record(['lastgeneratedhash' => $unusedhash]))) {
-            $unusedhash = md5(random_string(32));
-        }
-        */
-
-
         return [
             'unusedHash' => $unusedhash,
         ];
+    }
+
+    public static function is_enabled(
+        context $context,
+        array $options,
+        array $fpoptions,
+        ?\editor_tiny\editor $editor = null
+    ): bool {
+        // Users must have permission to replace translation hash.
+        return has_capability('tiny/translations:replacehash', $context);
     }
 }
