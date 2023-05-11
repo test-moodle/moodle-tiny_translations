@@ -26,4 +26,6 @@ const component = 'tiny_translations';
 export default {
     component,
     pluginName: `${component}/plugin`,
+    buttonName: 'tiny_translations',
+    icon: 'tiny_translations',
 };

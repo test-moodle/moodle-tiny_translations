@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['button_translate'] = 'Translate content';
 $string['menuitem_translate'] = 'Translate content';
-$string['pluginname'] = 'Translate content';
+$string['helplinktext'] = 'Translations helper';
 $string['pluginname'] = 'Translations';
+$string['buttontitle'] = 'Replace content translation hash';
 $string['translations:translate'] = 'Translate content';

@@ -21,6 +21,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+import {component as buttonName} from './common';
+import {addToolbarButton} from 'editor_tiny/utils';
+
 const getValidElements = ({extended_valid_elements = ''}) => {
     // The span must have both attributes, otherwise TinyMCE will see it as empty, and will remove it.
     const ignoredValue = 'span[data-translationhash],span[name]';
@@ -37,5 +40,6 @@ export const configure = (instanceConfig) => {
     return {
         // eslint-disable-next-line camelcase
         extended_valid_elements: getValidElements(instanceConfig),
+        toolbar: addToolbarButton(instanceConfig.toolbar, 'content', buttonName),
     };
 };

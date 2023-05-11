@@ -21,6 +21,13 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+import {getButtonImage} from 'editor_tiny/utils';
+import {get_string as getString} from 'core/str';
+import {
+    component,
+    buttonName,
+    icon,
+} from './common';
 import {getUnusedHash} from './options';
 
 /**
@@ -32,7 +39,25 @@ import {getUnusedHash} from './options';
  * @returns {function} The registration function to call within the Plugin.add function.
  */
 export const getSetup = async() => {
+    const [
+        buttonText,
+        buttonImage,
+    ] = await Promise.all([
+        getString('buttontitle', component),
+        getButtonImage('icon', component),
+    ]);
+
     return (editor) => {
+        // Register the Icon.
+        editor.ui.registry.addIcon(icon, buttonImage.html);
+
+        // Register the Menu Button.
+        editor.ui.registry.addToggleButton(buttonName, {
+            icon,
+            tooltip: buttonText,
+            onAction: () => alert("Todo: Show confirmation dialog."),
+        });
+
         if (editor.getElement().id === 'id_substitutetext_editor') {
             // Do not add tranlation hashes to translations.
             return;
