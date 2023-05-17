@@ -31,3 +31,5 @@ $string['helplinktext'] = 'Translations helper';
 $string['pluginname'] = 'Translations';
 $string['buttontitle'] = 'Replace content translation hash';
 $string['translations:replacehash'] = 'Replace translation hash key';
+$string['confirmation'] = 'Confirm';
+$string['confirmtext'] = 'Are you sure you want to replace the current translation hash?';

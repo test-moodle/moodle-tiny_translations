@@ -23,6 +23,7 @@
 
 import {getButtonImage} from 'editor_tiny/utils';
 import {get_string as getString} from 'core/str';
+import {handleAction} from './ui';
 import {
     component,
     buttonName,
@@ -55,7 +56,7 @@ export const getSetup = async() => {
         editor.ui.registry.addToggleButton(buttonName, {
             icon,
             tooltip: buttonText,
-            onAction: () => alert("Todo: Show confirmation dialog."),
+            onAction: () => handleAction(editor),
         });
 
         if (editor.getElement().id === 'id_substitutetext_editor') {
