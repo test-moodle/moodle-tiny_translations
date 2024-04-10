@@ -16,7 +16,7 @@
 /**
  * Tiny tiny_translations for Moodle.
  *
- * @module      plugintype_pluginname/plugin
+ * @module      tiny_translations/plugin
  * @copyright   2023 Andrew Lyons <andrew@nicols.co.uk>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

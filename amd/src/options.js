@@ -16,7 +16,7 @@
 /**
  * Options helper for the Moodle tiny_translations plugin.
  *
- * @module      plugintype_pluginname/options
+ * @module      tiny_translations/options
  * @copyright   2023 Andrew Lyons <andrew@nicols.co.uk>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

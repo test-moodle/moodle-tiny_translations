@@ -16,7 +16,7 @@
 /**
  * Commands helper for the Moodle tiny_translations plugin.
  *
- * @module      plugintype_pluginname/commands
+ * @module      tiny_translations/commands
  * @copyright   2023 Andrew Lyons <andrew@nicols.co.uk>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -71,21 +71,30 @@ export const getSetup = async() => {
             const newTranslationHash = getUnusedHash(editor);
 
             if (!newTranslationHash) {
-                // There is no translation has to use for this field.
+                // There is no translation hash to use for this field.
                 return;
             }
 
             translationHashElement = editor.getBody().querySelector('[data-translationhash]');
-            // Ensure that the hash element has a name.
-            // This ensures that TinyMCE sees it as non-empty content, and therefore does not remove it.
+            // Ensure that the hash span element is warpped in a <p> tag, with appropriate 'class' applied.
             if (translationHashElement) {
-                translationHashElement.setAttribute('name', 'translationhash');
+                // translationHashElement.setAttribute('name', 'translationhash');
+
+                let parentBlock = translationHashElement.parentElement;
+                parentBlock.setAttribute('class', 'translationhash'); // Set a class so that we make this "hidden".
             } else {
                 translationHashElement = document.createElement('span');
                 translationHashElement.dataset.translationhash = newTranslationHash;
-                translationHashElement.setAttribute('name', 'translationhash');
+                // translationHashElement.setAttribute('name', 'translationhash');
 
-                editor.getBody().prepend(translationHashElement);
+                // Add a parent block with our own 'class' applied. Otherwise editor will add one automatically.
+                let parentBlock = document.createElement('p');
+                parentBlock.setAttribute('class', 'translationhash');
+                parentBlock.appendChild(translationHashElement);
+
+                editor.getBody().prepend(parentBlock);
+
+                // editor.getBody().prepend(translationHashElement);
             }
         });
 

@@ -16,7 +16,7 @@
 /**
  * Tiny Replace translation hash.
  *
- * @module      tiny_translations/modal
+ * @module      tiny_translations/ui
  * @copyright   2023 Rajneel Totaram <rjnlfj@yahoo.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -63,22 +63,19 @@ const handleOK = async(editor, modal, data) => {
 };
 
 const replaceHash = (editor, modal, data) => {
-    const alltranslationhashpregex = /<p><span name="translationhash" data-translationhash[ ]*=[ ]*[\'"]+([a-zA-Z0-9]+)[\'"]+[ ]*>[ ]*<\/span><\/p>/g;
-    const alltranslationhashregex = /<span name="translationhash" data-translationhash[ ]*=[ ]*[\'"]+([a-zA-Z0-9]+)[\'"]+[ ]*>[ ]*<\/span>/g;
+    const alltranslationhashregex =
+        /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>/g;
 
-    var translationhash;
-
-    var initialcontent = editor.getContent();
+    let translationhash;
+    let initialcontent = editor.getContent();
 
     // Remove the old translation span tags.
-    // Replace this so that it doesn't leave behind <p>&nbsp;</p>.
-    initialcontent = initialcontent.replaceAll(alltranslationhashpregex, "");
-    // Now replace all other instances.
     initialcontent = initialcontent.replaceAll(alltranslationhashregex, "");
 
     // Add new translation span tag.
-    translationhash = "<p><span name=\"translationhash\" data-translationhash=\"" + getUnusedHash(editor) + "\"></span></p>";
-    editor.setContent(initialcontent + translationhash);
+    translationhash = "<p class=\"translationhash\"><span data-translationhash=\"" + getUnusedHash(editor) + "\"></span></p>";
+    // Put the translation span tag first similar to how it is when editor loads with empty content.
+    editor.setContent(translationhash + initialcontent);
     //editor.insertContent(translationhash + initialcontent);
 
     // Disable button.

@@ -1,3 +1,10 @@
 [data-translationhash] {
     display: none;
 }
+
+/* Applied to parent of span tags to keep them hidden */
+.translationhash {
+    display: none;
+    height:0;
+    width: 0;
+}

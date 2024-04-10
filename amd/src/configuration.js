@@ -16,7 +16,7 @@
 /**
  * Tiny tiny_translations for Moodle.
  *
- * @module      plugintype_pluginname/plugin
+ * @module      tiny_translations/plugin
  * @copyright   2023 Andrew Lyons <andrew@nicols.co.uk>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,7 +26,7 @@ import {addToolbarButton} from 'editor_tiny/utils';
 
 const getValidElements = ({extended_valid_elements = ''}) => {
     // The span must have both attributes, otherwise TinyMCE will see it as empty, and will remove it.
-    const ignoredValue = 'span[data-translationhash],span[name]';
+    const ignoredValue = 'span[data-translationhash]';
     // eslint-disable-next-line camelcase
     if (extended_valid_elements) {
         // eslint-disable-next-line camelcase
