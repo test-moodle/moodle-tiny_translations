@@ -66,11 +66,16 @@ const replaceHash = (editor, modal, data) => {
     const alltranslationhashregex =
         /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>/g;
 
+    const emptyptagsregex = /<p\s*class="translationhash">\s*<\/p>/g;
+
     let translationhash;
     let initialcontent = editor.getContent();
 
     // Remove the old translation span tags.
     initialcontent = initialcontent.replaceAll(alltranslationhashregex, "");
+
+    // Remove any empty <p class="translationhash"> tags.
+    initialcontent = initialcontent.replaceAll(emptyptagsregex, "");
 
     // Add new translation span tag.
     translationhash = "<p class=\"translationhash\"><span data-translationhash=\"" + getUnusedHash(editor) + "\"></span></p>";
