@@ -76,13 +76,26 @@ export const getSetup = async() => {
             }
 
             translationHashElement = editor.getBody().querySelector('[data-translationhash]');
-            // Ensure that the hash span element is warpped in a <p> tag, with appropriate 'class' applied.
-            if (translationHashElement) {
-                // translationHashElement.setAttribute('name', 'translationhash');
 
-                let parentBlock = translationHashElement.parentElement;
-                parentBlock.setAttribute('class', 'translationhash'); // Set a class so that we make this "hidden".
+            if (translationHashElement) {
+                // Ensure that the hash span element is warpped in a <p> tag, with appropriate 'class' applied.
+                if (!translationHashElement.parentElement.classList.contains('translationhash')) {
+                    // The translation span tag is on its own.
+                    // This is old syntax and we should convert it.
+                    let translationHashElementCopy = translationHashElement;
+                    let parentBlock = document.createElement('p');
+                    parentBlock.setAttribute('class', 'translationhash');
+
+                    // Strip out the old translation span element.
+                    translationHashElement.remove();
+
+                    // Prepend the translation span element with the p parent
+                    parentBlock.appendChild(translationHashElementCopy);
+
+                    editor.getBody().prepend(parentBlock);
+                }
             } else {
+                // No translation span tag found, so add one.
                 translationHashElement = document.createElement('span');
                 translationHashElement.dataset.translationhash = newTranslationHash;
                 // translationHashElement.setAttribute('name', 'translationhash');
