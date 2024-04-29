@@ -133,3 +133,25 @@ const insertTranslationHash = (editor, translationHash) => {
 
     return translationHashElement;
 };
+
+/*
+ * Remove translation span tags.
+ */
+const removeTranslationHashElements = (editor, content) => {
+    const alltranslationhashregex =
+        /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>/g;
+    const emptyptagsregex = /<p\s*class="translationhash">\s*<\/p>/g;
+
+    // Remove the translation span tags.
+    content = content.replaceAll(alltranslationhashregex, "");
+
+    // Remove any empty <p class="translationhash"> tags.
+    content = content.replaceAll(emptyptagsregex, "");
+
+    return content;
+};
+
+
+export const handleOnPaste = (editor, args) => {
+    args.content = removeTranslationHashElements(editor, args.content);
+};
