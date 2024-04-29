@@ -58,11 +58,11 @@ const displayDialogue = async(editor, data = {}) => {
     });
 };
 
-const handleOK = async(editor, modal, data) => {
-    replaceHash(editor, modal, data);
+const handleOK = async(editor) => {
+    replaceHash(editor);
 };
 
-const replaceHash = (editor, modal, data) => {
+const replaceHash = (editor) => {
     const alltranslationhashregex =
         /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>/g;
 

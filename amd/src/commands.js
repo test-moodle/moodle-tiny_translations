@@ -82,32 +82,17 @@ export const getSetup = async() => {
                 if (!translationHashElement.parentElement.classList.contains('translationhash')) {
                     // The translation span tag is on its own.
                     // This is old syntax and we should convert it.
-                    let translationHashElementCopy = translationHashElement;
-                    let parentBlock = document.createElement('p');
-                    parentBlock.setAttribute('class', 'translationhash');
+                    const translationHash = translationHashElement?.dataset.translationhash;
 
                     // Strip out the old translation span element.
                     translationHashElement.remove();
 
-                    // Prepend the translation span element with the p parent
-                    parentBlock.appendChild(translationHashElementCopy);
-
-                    editor.getBody().prepend(parentBlock);
+                    // Add the translation span with a <p> tag.
+                    translationHashElement = insertTranslationHash(editor, translationHash);
                 }
             } else {
                 // No translation span tag found, so add one.
-                translationHashElement = document.createElement('span');
-                translationHashElement.dataset.translationhash = newTranslationHash;
-                // translationHashElement.setAttribute('name', 'translationhash');
-
-                // Add a parent block with our own 'class' applied. Otherwise editor will add one automatically.
-                let parentBlock = document.createElement('p');
-                parentBlock.setAttribute('class', 'translationhash');
-                parentBlock.appendChild(translationHashElement);
-
-                editor.getBody().prepend(parentBlock);
-
-                // editor.getBody().prepend(translationHashElement);
+                translationHashElement = insertTranslationHash(editor, newTranslationHash);
             }
         });
 
@@ -116,6 +101,35 @@ export const getSetup = async() => {
             if (editor.getContent() === translationHashElement.outerHTML) {
                 editor.setContent('');
             }
+
+            // We must call save here to ensure that the most recent content is saved to the textarea.
+            editor.save();
         });
     };
+};
+
+/*
+ * Create a translation span block, given a translation hash string.
+ * The format is: <p class="translationhash"><span data-translationhash="xxxx"></span</p>
+ */
+const getTranslationHashBlock = (translationHash) => {
+    const translationHashElement = document.createElement('span');
+    translationHashElement.dataset.translationhash = translationHash;
+
+    // Add a parent block with our own 'class' applied. Otherwise editor will add a <p> tag automatically.
+    const parentBlock = document.createElement('p');
+    parentBlock.setAttribute('class', 'translationhash');
+    parentBlock.appendChild(translationHashElement);
+
+    return parentBlock;
+};
+
+/*
+ * Add the translation span block at the beginning of the content.
+ */
+const insertTranslationHash = (editor, translationHash) => {
+    const translationHashElement = getTranslationHashBlock(translationHash);
+    editor.getBody().prepend(translationHashElement);
+
+    return translationHashElement;
 };
