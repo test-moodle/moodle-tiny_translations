@@ -22,11 +22,9 @@
  */
 
 import Modal from 'core/modal';
-import ModalRegistry from 'core/modal_registry';
 
-const TranslationsModal = class extends Modal {
+export default class ContentTranslationsModal extends Modal {
     static TYPE = 'tiny_translations/modal';
-
     static TEMPLATE = 'tiny_translations/modal';
 
     registerEventListeners() {
@@ -37,8 +35,4 @@ const TranslationsModal = class extends Modal {
         this.registerCloseOnSave();
         this.registerCloseOnCancel();
     }
-};
-
-ModalRegistry.register(TranslationsModal.TYPE, TranslationsModal, TranslationsModal.TEMPLATE);
-
-export default TranslationsModal;
+}

@@ -21,9 +21,8 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-import Modal from 'tiny_translations/modal';
+import ContentTranslationsModal from 'tiny_translations/modal';
 import ModalEvents from 'core/modal_events';
-import ModalFactory from 'core/modal_factory';
 import {getUnusedHash} from './options';
 
 export const handleAction = (editor) => {
@@ -45,8 +44,7 @@ const getTemplateContext = (editor, data) => {
 
 
 const displayDialogue = async(editor, data = {}) => {
-    const modal = await ModalFactory.create({
-        type: Modal.TYPE,
+    const modal = await ContentTranslationsModal.create({
         templateContext: getTemplateContext(editor, data),
         large: true,
     });
