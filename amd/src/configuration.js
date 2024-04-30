@@ -23,7 +23,7 @@
 
 import {component as buttonName} from './common';
 import {addToolbarButton} from 'editor_tiny/utils';
-import {handleOnPaste} from './commands';
+import {handleOnPaste} from './ui';
 
 // eslint-disable-next-line camelcase
 const getValidElements = ({extended_valid_elements = ''}) => {

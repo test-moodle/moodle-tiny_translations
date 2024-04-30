@@ -63,26 +63,59 @@ const handleOK = async(editor) => {
 };
 
 const replaceHash = (editor) => {
-    const alltranslationhashregex =
-        /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>/g;
-
-    const emptyptagsregex = /<p\s*class="translationhash">\s*<\/p>/g;
-
-    let translationhash;
     let initialcontent = editor.getContent();
 
-    // Remove the old translation span tags.
-    initialcontent = initialcontent.replaceAll(alltranslationhashregex, "");
+    // Remove all translation span tags.
+    initialcontent = removeTranslationHashElements(editor, initialcontent);
+
+    editor.setContent(initialcontent);
+    // Add the new translation span tag.
+    insertTranslationHash(editor, getUnusedHash(editor));
+};
+
+/*
+ * Create a translation span block, given a translation hash string.
+ * The format is: <p class="translationhash"><span data-translationhash="xxxx"></span</p>
+ */
+const getTranslationHashBlock = (translationHash) => {
+    const translationHashElement = document.createElement('span');
+    translationHashElement.dataset.translationhash = translationHash;
+
+    // Add a parent block with our own 'class' applied. Otherwise editor will add a <p> tag automatically.
+    const parentBlock = document.createElement('p');
+    parentBlock.setAttribute('class', 'translationhash');
+    parentBlock.appendChild(translationHashElement);
+
+    return parentBlock;
+};
+
+/*
+ * Add the translation span block at the beginning of the content.
+ */
+export const insertTranslationHash = (editor, translationHash) => {
+    const translationHashElement = getTranslationHashBlock(translationHash);
+    editor.getBody().prepend(translationHashElement);
+
+    return translationHashElement;
+};
+
+/*
+ * Remove translation span tags.
+ */
+export const removeTranslationHashElements = (editor, content) => {
+    const alltranslationhashregex =
+        /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>/g;
+    const emptyptagsregex = /<p\s*class="translationhash">\s*<\/p>/g;
+
+    // Remove the translation span tags.
+    content = content.replaceAll(alltranslationhashregex, "");
 
     // Remove any empty <p class="translationhash"> tags.
-    initialcontent = initialcontent.replaceAll(emptyptagsregex, "");
+    content = content.replaceAll(emptyptagsregex, "");
 
-    // Add new translation span tag.
-    translationhash = "<p class=\"translationhash\"><span data-translationhash=\"" + getUnusedHash(editor) + "\"></span></p>";
-    // Put the translation span tag first similar to how it is when editor loads with empty content.
-    editor.setContent(translationhash + initialcontent);
-    //editor.insertContent(translationhash + initialcontent);
+    return content;
+};
 
-    // Disable button.
-
+export const handleOnPaste = (editor, args) => {
+    args.content = removeTranslationHashElements(editor, args.content);
 };

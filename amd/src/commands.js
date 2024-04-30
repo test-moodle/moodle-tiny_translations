@@ -23,7 +23,7 @@
 
 import {getButtonImage} from 'editor_tiny/utils';
 import {get_string as getString} from 'core/str';
-import {handleAction} from './ui';
+import {handleAction, insertTranslationHash} from './ui';
 import {
     component,
     buttonName,
@@ -106,52 +106,4 @@ export const getSetup = async() => {
             editor.save();
         });
     };
-};
-
-/*
- * Create a translation span block, given a translation hash string.
- * The format is: <p class="translationhash"><span data-translationhash="xxxx"></span</p>
- */
-const getTranslationHashBlock = (translationHash) => {
-    const translationHashElement = document.createElement('span');
-    translationHashElement.dataset.translationhash = translationHash;
-
-    // Add a parent block with our own 'class' applied. Otherwise editor will add a <p> tag automatically.
-    const parentBlock = document.createElement('p');
-    parentBlock.setAttribute('class', 'translationhash');
-    parentBlock.appendChild(translationHashElement);
-
-    return parentBlock;
-};
-
-/*
- * Add the translation span block at the beginning of the content.
- */
-const insertTranslationHash = (editor, translationHash) => {
-    const translationHashElement = getTranslationHashBlock(translationHash);
-    editor.getBody().prepend(translationHashElement);
-
-    return translationHashElement;
-};
-
-/*
- * Remove translation span tags.
- */
-const removeTranslationHashElements = (editor, content) => {
-    const alltranslationhashregex =
-        /(?:<p>|<p class="translationhash">)\s*<span\s*data-translationhash\s*=\s*['"]+([a-zA-Z0-9]+)['"]+\s*>\s*<\/span>\s*<\/p>/g;
-    const emptyptagsregex = /<p\s*class="translationhash">\s*<\/p>/g;
-
-    // Remove the translation span tags.
-    content = content.replaceAll(alltranslationhashregex, "");
-
-    // Remove any empty <p class="translationhash"> tags.
-    content = content.replaceAll(emptyptagsregex, "");
-
-    return content;
-};
-
-
-export const handleOnPaste = (editor, args) => {
-    args.content = removeTranslationHashElements(editor, args.content);
 };
